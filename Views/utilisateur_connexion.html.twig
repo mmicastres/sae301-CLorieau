@@ -1,0 +1,36 @@
+{% extends "index.html.twig" %}
+
+{% block section %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Connexion à un compte</h3>
+                    <form method="post" action="index.php" class="well">
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Email</label>
+                            <input type="email" id="login" class="form-control" name="login" required placeholder="Entrez une adresse mail" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwd" class="form-label">Mot de passe</label>
+                            <input type="password" id="passwd" class="form-control" name="passwd" required placeholder="Entrez un mot de passe" />
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="stayConnected" name="stayConnected">
+                            <label class="form-check-label" for="stayConnected">Rester connecté</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" name="connexion">Connexion</button>
+                        <div class="mt-4 text-center">
+                            <a href="?action=inscription" class="text-decoration-none">Pas de compte ? Inscription</a>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <a href="#" class="text-decoration-none">Connexion Administrateur</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

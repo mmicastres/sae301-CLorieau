@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bff637ae-7cb3-40ee-8e66-3808fbd48613" name="sftp://webmmi.iut-tlse3.fr" url="https://webmmi.iut-tlse3.fr/~lrc4559a/Appli_MMI_SAE301/">
+        <fileTransfer rootFolder="/data/public_html/Appli_MMI_SAE301" accessType="SFTP" host="webmmi.iut-tlse3.fr" port="2281" sshConfigId="e58b4c5d-733a-489f-b879-f35c24c1fadb" sshConfig="lrc4559a@webmmi.iut-tlse3.fr:2281 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,92 @@
+.container { 
+	min-height:400px;
+}
+.well {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+
+legend {
+	font-size: 1.2rem;
+}
+
+.logommi {
+	width: 40px !important;
+	height: 40px !important;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: #f8f9fa;
+}
+
+nav .navbar-brand img {
+	height: 50px;
+}
+
+#imgaccueil {
+	width: 931px;
+	height: 368px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none; 
+}
+
+#carddetail {
+	margin: auto ; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 160px;
+    object-fit: cover; 
+}
+
+.card-title {
+    font-size: 1rem;
+}
+
+.card-text {
+    font-size: 0.875rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.btn-outline-primary {
+    border-color: #007bff; 
+}
+
+.btn-primary {
+    background-color: #007bff; 
+    border: none; 
+}
+
+
+.d-flex.justify-content-between.align-items-center {
+    margin-bottom: 2rem; 
+}
+
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: auto; 
+    }
+}
+
+@media (min-width: 992px) {
+    #carddetail {
+        height: 100% !important; 
+    }
+}

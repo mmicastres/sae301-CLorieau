@@ -1,0 +1,75 @@
+
+{% extends "index.html.twig" %}
+
+{% block section %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">Ajouter un projet</h3>
+                        <form method="post" action="index.php">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="titre" class="form-label">Titre *</label>
+                                    <input type="text" class="form-control" id="titre" name="titre" placeholder="Ex : Site web MMI">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="idcontexte" class="form-label">Contexte *</label>
+                                    <select type="text" class="form-select" name="idcontexte" id="idcontexte">
+                                    {% for contexte in contextes %}
+                                    <option value="{{contexte.idcontexte}}">{{contexte.identifiant}} - {{contexte.semestre}} - {{contexte.intitule}}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description *</label>
+                                <textarea class="form-control" name="description" id="description" rows="3" placeholder="Décrivez votre projet"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="idcate" class="form-label">Catégorie *</label>
+                                    <select type="text" class="form-select" name="idcate" id="idcate" >
+                                    {% for cate in cates %}
+                                    <option value="{{cate.idcate}}">{{cate.nomcate}}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="liendemo" class="form-label">Lien demo *</label>
+                                    <input type="url" class="form-control" name="liendemo" id="liendemo" placeholder="Ex : https://webmmi.iut-tlse3.fr/xxxxxx">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="liensource" class="form-label">Lien des sources</label>
+                                    <input type="url" class="form-control" name="liensource" id="liensource" placeholder="Ex : https://www.figma.com/file">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="annee" class="form-label">Année de creation *</label>
+                                    <input type="text" class="form-control" name="annee" id="annee" placeholder="Ex : 2023">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nomtag" class="form-label">Tags *</label>
+                                    <input type="text" class="form-control" name="nomtag" id="nomtag" placeholder="Ex : HTML5, CSS3, JavaScript">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="image" class="form-label">Image *</label>
+                                    <input type="file" class="form-control" name="image" id="image">
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 mt-3">
+                                <button type="submit" name="ajoutproj" class="btn btn-primary">Ajouter</button>
+                            </div>
+                                <input type="hidden" name="idutilisateur" id="idutilisateur" value="{{idutilisateur}}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
