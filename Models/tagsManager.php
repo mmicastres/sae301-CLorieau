@@ -76,6 +76,12 @@ class TagManager {
 		return $tags;
 	}
 
+	public function deleteTags(Tag $supptag) : bool {
+		$req = "DELETE FROM tags WHERE idprojet = ?";
+		$stmt = $this->_db->prepare($req);
+		return $stmt->execute(array($supptag->idProjet()));
+	}
+
 
 
 

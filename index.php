@@ -70,16 +70,11 @@ if (isset($_POST["ajoutproj"])) {
   $projController->ajoutProjet();
 }
 
-// suppression d'un itineraire : choix de l'itineraire
-//  https://.../index/php?action=suppr
-if (isset($_GET["action"]) && $_GET["action"]=="suppr") { 
-  // $itiController->choixSuppItineraire(?? du membre connecté);
-}
 
 // supression d'un itineraire dans la base
 // --> au clic sur le bouton "valider_supp" du form précédent
-if (isset($_POST["valider_supp"])) { 
-  $projController->suppProjet();
+if (isset($_POST["action"]) && $_POST["action"]=="supprimer_projet") { 
+  $projController->supprimerProjet($_POST['idprojet']);
 }
 
 // modification d'un itineraire : choix de l'itineraire
@@ -139,6 +134,12 @@ if (isset($_GET["action"]) && $_GET['action']=="mesprojets") {
 if (isset($_GET["action"]) && $_GET['action']=="details") { 
 
   $projController->details();
+  
+} 
+
+if (isset($_GET["action"]) && $_GET['action']=="profil") { 
+
+  $utiController->monProfil();
   
 } 
 

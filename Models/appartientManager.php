@@ -33,4 +33,10 @@ class AppartientManager {
 		return $res;
 	}
 
+	public function deleteAppartient(Appartient $suppappartient) : bool {
+		$req = "DELETE FROM appartient WHERE idprojet = ?";
+		$stmt = $this->_db->prepare($req);
+		return $stmt->execute(array($suppappartient->idProjet()));
+	}
+
 }

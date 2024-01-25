@@ -52,12 +52,14 @@ class ProjetManager {
 	* @param Projet 
 	* @return boolean true si suppression, false sinon
 	*/
-	public function delete(Projet $proj) : bool {
-		$req = "DELETE FROM itineraire WHERE idprojet = ?";
+
+
+	public function delete(Projet $suppproj) : bool {
+		$req = "DELETE FROM projet WHERE idprojet = ?";
 		$stmt = $this->_db->prepare($req);
-		return $stmt->execute(array($proj->idProjet()));
+		return $stmt->execute(array($suppproj->idProjet()));
 	}
-		
+
 	/**
 	* echerche dans la BD d'un Projets à partir de son id
 	* @param int $iditi 

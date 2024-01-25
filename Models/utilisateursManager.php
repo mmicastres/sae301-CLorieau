@@ -77,9 +77,24 @@ class UtilisateurManager
 		}
 		return $ok;
 		
-		
-		
+	}
 
+	public function getDetailUti($idprojet) {
+
+		$utis = array();
+		$req = "SELECT nom, prenom FROM utilisateur NATURAL JOIN participation WHERE idprojet=?";
+		$stmt = $this->_db->prepare($req);
+		$stmt->execute(array($idprojet));		
+		// pour debuguer les requêtes SQL
+		$errorInfo = $stmt->errorInfo();
+		if ($errorInfo[0] != 0) {
+			print_r($errorInfo);
+		}
+		while ($donnees = $stmt->fetch())
+		{
+			$utis[] = new Utilisateur($donnees);
+		}
+		return $utis;
 	}
 	
 

@@ -9,12 +9,16 @@
        
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="path-to-your-image.jpg" class="card-img-top" alt="Image du projet">
+                <img src="img/{{projet.image}}" class="card-img-top" alt="Image du projet">
                 <div class="card-body">
                     <h5 class="card-title">{{projet.titre}}</h5>
-                    <p class="card-text">Projet réalisé dans le cadre de la {{contexte.identifiant}}au S{{contexte.semestre}}</p>
                     <p class="card-text"><small class="text-muted">Auteur : {{utilisateur.prenom}} </small></p>
-                    <a href="?action=details" class="btn btn-primary">Découvrir</a>
+                    <div class="d-flex justify-content-between">
+                        <form method="post" action="?action=details">
+                            <input type="hidden" name="idprojet" id="idprojet" value="{{projet.idprojet}}">
+                            <button type="submit" name="détails" class="btn btn-outline-primary">Découvrir</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

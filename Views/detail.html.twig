@@ -5,15 +5,15 @@
     <div class="card mb-3" id="carddetail" style="max-width: 90%">
         <div class="row g-0">
             <div class="col-lg-5">
-                <img src="path-to-your-image.jpg" alt="Image du projet" class="img-fluid rounded-start">
+                <img src="img/{% for detailprojet in detailprojets %}{{detailprojet.image}}{% endfor %}" alt="Image du projet" class="img-fluid rounded-start">
             </div>
             <div class="col-lg-7">
                 <div class="card-body" style="font-size: 1.1rem;"> 
                     <h2 class="card-title" style="font-size: 2.5rem;">{% for detailprojet in detailprojets %}{{detailprojet.titre}}{% endfor %}</h2> 
                     <p class="card-text">Description : {% for detailprojet in detailprojets %}{{detailprojet.description}}{% endfor %}</p>
                     <p class="card-text">Catégorie : {% for detailcate in detailcates %}{{detailcate.nomcate}}{% endfor %}</p>
-                    <p class="card-text">Contributeur(s) : {% for utilisateur in utilisateurs %}{{utilisateur.nom}}{% endfor %}</p>
-                    <p class="card-text">Contexte : {% for detailcate in detailcates %}{{detailcate.nomcate}}{% endfor %}</p>
+                    <p class="card-text">Contributeur(s) : {% for detailutilisateur in detailutilisateurs %}{{detailutilisateur.prenom}} {{detailutilisateur.nom}}{% endfor %}</p>
+                    <p class="card-text">Contexte : {% for detailcontexte in detailcontextes %}{{detailcontexte.identifiant}} - S{{detailcontexte.semestre}} - {{detailcontexte.intitule}}{% endfor %}</p>
                     <p class="card-text">Lien source :<a href="{% for detailsource in detailsources %}{{detailsource.liensource}}{% endfor %}" class="link-primary">{% for detailsource in detailsources %}{{detailsource.liensource}}{% endfor %}</a></p>
                     <p class="card-text">Lien démo :<a href="{% for detailprojet in detailprojets %}{{detailprojet.liendemo}}{% endfor %}" class="link-primary">{% for detailprojet in detailprojets %}{{detailprojet.liendemo}}{% endfor %}</a></p>
                     <p class="card-text">

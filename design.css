@@ -28,8 +28,39 @@ body {
 	background-color: #f8f9fa;
 }
 
+.navbar-custom {
+	position: relative;
+}
+.navbar-nav {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.navbar-profile {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem; /* Ajustez l'espace entre les éléments si nécessaire */
+}
+/* Assurez-vous que l'image et le nom d'utilisateur ne débordent pas sur le menu */
+.navbar-profile img, .navbar-profile .nom-utilisateur {
+	max-width: 150px; /* ou la largeur que vous souhaitez */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 nav .navbar-brand img {
 	height: 50px;
+}
+
+#navbarNavAltMarkup {
+	padding-left: 50px;
+}
+
+#profilimg {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
 }
 
 #imgaccueil {

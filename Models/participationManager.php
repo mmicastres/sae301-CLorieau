@@ -33,4 +33,10 @@ class ParticipationManager {
 		return $res;
 	}
 
+	public function deleteParticipation(Participation $suppparticipation) : bool {
+		$req = "DELETE FROM participation WHERE idprojet = ?";
+		$stmt = $this->_db->prepare($req);
+		return $stmt->execute(array($suppparticipation->idProjet()));
+	}
+
 }

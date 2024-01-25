@@ -6,7 +6,7 @@ class Projet {
 	private int $_idprojet;   
 	private string $_titre;
 	private string $_description;
-	private string $_image;
+	private ?string $_image = null;
 	private string $_liendemo;
 	private int $_idcontexte;
 	private int $_annee;

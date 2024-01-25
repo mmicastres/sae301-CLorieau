@@ -13,17 +13,19 @@
         {% for projet in projets %}
         <div class="col-md-3 mb-4">
             <div class="card">
-                <img src="path-to-your-image.jpg" class="card-img-top" alt="Image du projet">
+                <img src="img/{{projet.image}}" class="card-img-top" alt="Image du projet">
                 <div class="card-body">
-                    <h5 class="card-title">Benchmark</h5>
-                    <p class="card-text">Projet réalisé dans le cadre de la SAé 102 en première année de MMI.</p>
-                    <p class="card-text"><small class="text-muted">Auteur : Clément Lorieau</small></p>
+                    <h5 class="card-title">{{projet.titre}}</h5>
+                    <p class="card-text">{{projet.description}}</p>
                     <div class="d-flex justify-content-between">
                         <form method="post" action="?action=details">
                             <input type="hidden" name="idprojet" id="idprojet" value="{{projet.idprojet}}">
                             <button type="submit" name="détails" class="btn btn-outline-primary">Détails</button>
                         </form>
-                        <a href="#" class="btn btn-outline-danger">Supprimer</a>
+                        <form action="index.php" method="post">
+                            <input type="hidden" name="idprojet" id="idprojet" value="{{projet.idprojet}}">
+                            <button type="submit" name="action" value="supprimer_projet" class="btn btn-outline-danger">Supprimer</button>
+                        </form>
                     </div>
                     
                 </div>

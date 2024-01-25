@@ -11,9 +11,9 @@
 	<link rel="stylesheet" href="design.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark navbar-custom">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#"><img class="logommi" src="img/logommi.png" alt="Logo MMI"></a>
+		<a class="navbar-brand" href="#"><img class="logommi ms-3" src="img/logommi.png" alt="Logo MMI"></a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -30,15 +30,15 @@
 				
 			</div>
 		</div>
-		<div class="d-flex justify-content-end">
-			{% if acces == "oui" %}
-							<a class="btn btn-primary" href="?action=logout">Deconnexion</a>
-						{% else %}
-							<a class="btn btn-primary" href="?action=login">Connexion</a>
-						{% endif %}
-
-			
-		</div>
+		 <div class="navbar-profile">
+        {% if acces == "oui" %}
+            <span class="nom-utilisateur text-light">Clement Lorieau</span>
+            <a href="?action=profil"><img src="img/profil.webp" alt="Image de profil" id="profilimg"></a>
+            <a class="btn btn-primary" href="?action=logout">Deconnexion</a>
+        {% else %}
+            <a class="btn btn-primary" href="?action=login">Connexion</a>
+        {% endif %}
+    </div>
 	</div>
 </nav>
 

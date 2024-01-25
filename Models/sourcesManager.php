@@ -54,4 +54,11 @@ class SourceManager {
 		return $sources;
 	}
 
+	public function deleteSource(Source $suppsource) : bool {
+		$req = "DELETE FROM sources WHERE idprojet = ?";
+		$stmt = $this->_db->prepare($req);
+		return $stmt->execute(array($suppsource->idProjet()));
+	}
+
+
 }

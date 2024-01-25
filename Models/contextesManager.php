@@ -40,7 +40,7 @@ class ContexteManager {
 
 	public function getContexte($idprojet) {
 		$contextes = array();
-		$req = "SELECT identifiant, semestre  FROM sources WHERE idprojet=?";
+		$req = "SELECT identifiant, semestre, intitule  FROM contexte NATURAL JOIN projet WHERE idprojet=?";
 		$stmt = $this->_db->prepare($req);
 		$stmt->execute(array($idprojet));		
 		// pour debuguer les requêtes SQL
@@ -50,9 +50,9 @@ class ContexteManager {
 		}
 		while ($donnees = $stmt->fetch())
 		{
-			$sources[] = new Source($donnees);
+			$contextes[] = new Contexte($donnees);
 		}
-		return $sources;
+		return $contextes;
 	}
 
 

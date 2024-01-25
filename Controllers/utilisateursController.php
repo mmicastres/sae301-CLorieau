@@ -87,4 +87,9 @@ class UtilisateurController
 		echo $this->twig->render('inscription.html.twig', array('acces' => $_SESSION['acces']));
 	}
 
+	public function monProfil()
+	{
+		echo $this->twig->render('profil.html.twig', array('acces' => $_SESSION['acces']));
+	}
+
 }
