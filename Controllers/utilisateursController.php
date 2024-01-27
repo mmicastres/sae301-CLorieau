@@ -28,11 +28,11 @@ class UtilisateurController
 	{
 		// verif du login et mot de passe
 		// if ($_POST['login']=="user" && $_POST['passwd']=="pass")
-		$utilisateur = $this->utilisateurManager->verif_identification($_POST['login'], $_POST['passwd']);
-		if ($utilisateur != false) { // acces autorisé : variable de session acces = oui
+		$utilisateurs = $this->utilisateurManager->verif_identification($_POST['login'], $_POST['passwd']);
+		if ($utilisateurs != false) { // acces autorisé : variable de session acces = oui
 			$_SESSION['acces'] = "oui";
-			$_SESSION['idutilisateur'] = $utilisateur->idUtilisateur();
-			$message = "Bonjour " . $utilisateur->prenom() . " " . $utilisateur->nom() . "!";
+			$_SESSION['idutilisateur'] = $utilisateurs->idUtilisateur();
+			$message = "Bonjour " . $utilisateurs->prenom() . " " . $utilisateurs->nom() . "!";
 			echo $this->twig->render('index.html.twig', array('acces' => $_SESSION['acces'], 'message' => $message));
 		} else { // acces non autorisé : variable de session acces = non
 			$message = "identification incorrecte";
@@ -87,9 +87,13 @@ class UtilisateurController
 		echo $this->twig->render('inscription.html.twig', array('acces' => $_SESSION['acces']));
 	}
 
-	public function monProfil()
+	public function monProfil($utilisateur)
 	{
-		echo $this->twig->render('profil.html.twig', array('acces' => $_SESSION['acces']));
+		$utis = $this->utilisateurManager->getProfilUti($utilisateur);
+		echo $this->twig->render('profil.html.twig', array('utis'=> $utis, 'acces'=>$_SESSION['acces']));
+		
 	}
+
+	
 
 }

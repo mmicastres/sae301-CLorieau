@@ -32,8 +32,8 @@
 		</div>
 		 <div class="navbar-profile">
         {% if acces == "oui" %}
-            <span class="nom-utilisateur text-light">Clement Lorieau</span>
-            <a href="?action=profil"><img src="img/profil.webp" alt="Image de profil" id="profilimg"></a>
+            <span class="nom-utilisateur text-light">{% for uti in utis %}{{uti.prenom}} {{uti.nom}}{% endfor %}</span>
+            <a href="?action=profil"><img src="img/profil.webp" alt="Image de profil" class="profilimg"></a>
             <a class="btn btn-primary" href="?action=logout">Deconnexion</a>
         {% else %}
             <a class="btn btn-primary" href="?action=login">Connexion</a>

@@ -8,33 +8,35 @@
             <div class="d-flex justify-content-end">
                 <img src="img/profil.webp" alt="Profil" class="rounded-circle" style="width: 100px; height: 100px;">
             </div>
+            {% for uti in utis %}
             <form>
                 <div class="mb-3 row">
                     <div class="col-md-6">
                         <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" class="form-control" id="prenom" placeholder="Prénom" value="{{ user.first_name }}">
+                        <input type="text" class="form-control" id="prenom" placeholder="Prénom" value="{{uti.prenom}}">
                     </div>
                     <div class="col-md-6">
                         <label for="nom" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nom" placeholder="Nom" value="{{ user.last_name }}">
+                        <input type="text" class="form-control" id="nom" placeholder="Nom" value="{{uti.nom}}">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Email" value="{{ user.email }}">
+                    <input type="email" class="form-control" id="email" placeholder="Email" value="{{uti.mail}}">
                 </div>
                 <div class="mb-3">
                     <label for="identifiant" class="form-label">Identifiant IUT</label>
-                    <input type="text" class="form-control" id="identifiant" placeholder="Identifiant IUT" value="{{ user.iut_id }}">
+                    <input type="text" class="form-control" id="identifiant" placeholder="Identifiant IUT" value="{{uti.idiut}}">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" placeholder="Mot de passe">
+                    <input type="password" class="form-control" id="password" placeholder="Mot de passe" value="{{uti.mdp}}">
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary mb-5">Enregistrer</button>
                 </div>
             </form>
+            {% endfor %}
         </div>
     </div>
 </div>

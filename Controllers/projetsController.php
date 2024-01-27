@@ -8,6 +8,7 @@ include "Models/contextesManager.php";
 include "Models/appartientManager.php";
 include "Models/participationManager.php";
 include "Models/associerManager.php";
+include "Models/commentairesManager.php";
 
 
 include "Modules/contexte.php";
@@ -17,6 +18,7 @@ include "Modules/source.php";
 include "Modules/appartient.php";
 include "Modules/participation.php";
 include "Modules/associer.php";
+include "Modules/commentaire.php";
 
 
 
@@ -36,6 +38,7 @@ class ProjetController
 	private $participationManager;
 	private $associerManager;
 	private $utilisateurManager;
+	private $commentaireManager;
 	private $twig;
 
 	/**
@@ -52,6 +55,7 @@ class ProjetController
 		$this->participationManager = new ParticipationManager($db);
 		$this->associerManager = new AssocierManager($db);
 		$this->utilisateurManager = new UtilisateurManager($db);
+		$this->commentaireManager = new CommentaireManager($db);
 		$this->twig = $twig;
 
 	}
@@ -309,10 +313,11 @@ class ProjetController
 		$detailcates = $this->categorieManager->getCategorie($_POST["idprojet"]);
 		$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
 		$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
-		echo $this->twig->render('detail.html.twig', array('detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'acces' => $_SESSION['acces']));
+		$comms = $this->commentaireManager->getListCommentaire($_POST["idprojet"]);
+		echo $this->twig->render('detail.html.twig', array('detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'comms' => $comms, 'acces' => $_SESSION['acces'], 'idutilisateur'=> $_SESSION['idutilisateur']));
 	}
 
-	
+
 
 
 
@@ -323,17 +328,31 @@ class ProjetController
 	 * @param aucun
 	 * @return rien
 	 */
-	// public function formRechercheProjet() {
-	// 	echo $this->twig->render('itineraire_recherche.html.twig',array('acces'=> $_SESSION['acces'])); 
-	// }
-
 	/**
-	 * recherche dans la BD d'iti à partir des données du form précédent
+	 * recherche dans la BD projet à partir des données du form précédent
 	 * @param aucun
 	 * @return rien
 	 */
-	// 	public function rechercheProjet() {
-// 		$projets = $this->itiManager->search($_POST["lieudepart"], $_POST["lieuarrivee"], $_POST["datedepart"]);
-// 		echo $this->twig->render('itineraire_liste.html.twig',array('itis'=>$projets,'acces'=> $_SESSION['acces'])); 
-// 	}
+	public function rechercheProjet()
+	{
+		$projets = $this->projetManager->search($_POST["titre"], $_POST["description"]);
+		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
+	}
+
+	public function ajoutCommentaire()
+	{
+		$comm = new Commentaire($_POST);
+		$ok = $this->commentaireManager->add($comm);
+		$detailprojets = $this->projetManager->getListProjet($_POST["idprojet"]);
+		$detailtags = $this->tagManager->getTag($_POST["idprojet"]);
+		$detailsources = $this->sourceManager->getSource($_POST["idprojet"]);
+		$detailcates = $this->categorieManager->getCategorie($_POST["idprojet"]);
+		$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
+		$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
+		$message = $ok ? "Commentaire ajouté" : $message = "probleme lors de la modification";
+		echo $this->twig->render('detail.html.twig', array('comm' => $comm, 'detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'message' => $message, 'acces' => $_SESSION['acces'], 'idutilisateur'=> $_SESSION['idutilisateur']));
+	}
+
+
+
 }

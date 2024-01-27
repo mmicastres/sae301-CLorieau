@@ -142,44 +142,39 @@ class ProjetManager {
 	}
 	/**
 	* méthode de recherche d'un Projet dans la BD à partir des critères passés en paramètre
-	* @param string $lieudepart
-	* @param string $lieudepart
-	* @param string $datedepart
-	* @return Itineraire[]
+	* @param string $titre
+	* @param string $description
+	* @return Projet[]
 	*/
-	// public function search(string $lieudepart, string $lieuarrivee, string $datedepart) {
-	// 	$req = "SELECT iditi,lieudepart,lieuarrivee,heuredepart,date_format(datedepart,'%d/%c/%Y')as datedepart,tarif,nbplaces,bagagesautorises,details FROM itineraire";
-	// 	$cond = '';
+	public function search(string $titre, string $description) {
+		$req = "SELECT idprojet, titre, description, image, liendemo, idcontexte, annee FROM projet";
+		$cond = '';
 
-	// 	if ($lieudepart<>"") 
-	// 	{ 	$cond = $cond . " lieudepart like '%". $lieudepart ."%'";
-	// 	}
-	// 	if ($lieuarrivee<>"") 
-	// 	{ 	if ($cond<>"") $cond .= " AND ";
-	// 		$cond = $cond . " lieuarrivee like '%" . $lieuarrivee ."%'";
-	// 	}
-	// 	if ($datedepart<>"") 
-	// 	{ 	if ($cond<>"") $cond .= " AND ";
-	// 		$cond = $cond . " datedepart = '" . dateChgmtFormat($datedepart) . "'";
-	// 	}
-	// 	if ($cond <>"")
-	// 	{ 	$req .= " WHERE " . $cond;
-	// 	}
-	// 	// execution de la requete				
-	// 	$stmt = $this->_db->prepare($req);
-	// 	$stmt->execute();
-	// 	// pour debuguer les requêtes SQL
-	// 	$errorInfo = $stmt->errorInfo();
-	// 	if ($errorInfo[0] != 0) {
-	// 		print_r($errorInfo);
-	// 	}
-	// 	$itineraires = array();
-	// 	while ($donnees = $stmt->fetch())
-	// 	{
-	// 		$itineraires[] = new Itineraire($donnees);
-	// 	}
-	// 	return $itineraires;
-	// }
+		if ($titre<>"") 
+		{ 	$cond = $cond . " titre like '%". $titre ."%'";
+		}
+		if ($description<>"") 
+		{ 	if ($cond<>"") $cond .= " AND ";
+			$cond = $cond . " description like '%" . $description ."%'";
+		}
+		if ($cond <>"")
+		{ 	$req .= " WHERE " . $cond;
+		}
+		// execution de la requete				
+		$stmt = $this->_db->prepare($req);
+		$stmt->execute();
+		// pour debuguer les requêtes SQL
+		$errorInfo = $stmt->errorInfo();
+		if ($errorInfo[0] != 0) {
+			print_r($errorInfo);
+		}
+		$projs = array();
+		while ($donnees = $stmt->fetch())
+		{
+			$projs[] = new Projet($donnees);
+		}
+		return $projs;
+	}
 	
 	/**
 	* modification d'un Projet dans la BD

@@ -96,6 +96,25 @@ class UtilisateurManager
 		}
 		return $utis;
 	}
+
+
+	public function getProfilUti($idutilisateur) {
+
+		$utis = array();
+		$req = "SELECT idutilisateur, nom, prenom, idiut, mail, mdp, statut, photoprofil FROM utilisateur WHERE idutilisateur = ?";
+		$stmt = $this->_db->prepare($req);
+		$stmt->execute(array($idutilisateur));		
+		// pour debuguer les requêtes SQL
+		$errorInfo = $stmt->errorInfo();
+		if ($errorInfo[0] != 0) {
+			print_r($errorInfo);
+		}
+		while ($donnees = $stmt->fetch())
+		{
+			$utis[] = new Utilisateur($donnees);
+		}
+		return $utis;
+	}
 	
 
 }

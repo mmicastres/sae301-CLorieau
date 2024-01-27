@@ -44,7 +44,7 @@ class Utilisateur {
 		public function setIdIut(string $idiut) { $this->_idiut = $idiut; }
 		public function setMail(string $mail) { $this->_mail = $mail; }
 		public function setMdp(string $mdp) { $this->_mdp = $mdp; }
-		public function setSexe(int $statut) { $this->_statut = $statut; }
+		public function setStatut(int $statut) { $this->_statut = $statut; }
 		public function setPhotoProfil(string $photoprofil) { $this->_photoprofil = $photoprofil; }		
 
     }

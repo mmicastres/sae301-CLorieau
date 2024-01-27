@@ -23,7 +23,31 @@
                 </div>
             </div>
         </div>
+        <form  method="post" action="index.php">
+            <fieldset class="form-group"> <legend>Ajout d'un commentaire</legend>
+                <div class="col-sm-10">
+                    <textarea class="form-control form-control-sm" id="avis" name="avis" rows="2" placeholder="Votre commentaire"></textarea>
+                    <input type="hidden" name="idprojet" id="idprojet" value="{% for detailprojet in detailprojets %}{{detailprojet.idprojet}}{% endfor %}">
+                    <input type="hidden" name="idutilisateur" id="idutilisateur" value="{{idutilisateur}}">
+                </div>
+                    <button class="btn btn-outline-primary w-25 mt-2" type="submit" name="envoyer_comm">Publier</button>
+            </fieldset>
+        </form>
     </div>
+</div>
+
+<div class="container-fluid mt-5">
+    {% for comm in comms %}
+    <div class="card mb-3" id="carddetail" style="max-width: 90%">
+        <div>
+            <img src="img/profil.webp" alt="Image du projet" class="img-fluid rounded-start profilimg">
+        </div>
+        <p>{{comm.prenom}} {{comm.nom}}</p>
+        <p>{{comm.datePublication}}</p>
+        <p>{{comm.avis}}</p>
+
+    </div>
+    {% endfor %}
 </div>
 
 

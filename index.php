@@ -96,12 +96,6 @@ if (isset($_POST["valider_modif"])) {
   $projController->modProjet();
 }
 
-// recherche d'itineraire : saisie des critres de recherche dans un formulaire
-//  https://.../index/php?action=recherc
-if (isset($_GET["action"]) && $_GET["action"]=="recher") {
-  $projController->formRechercheProjet();
-}
-
 // recherche des itineraires : construction de la requete SQL en fonction des critères 
 // de recherche et affichage du résultat dans un tableau HTML 
 // --> au clic sur le bouton "valider_recher" du form précédent
@@ -135,13 +129,19 @@ if (isset($_GET["action"]) && $_GET['action']=="details") {
 
   $projController->details();
   
+
+  
 } 
 
 if (isset($_GET["action"]) && $_GET['action']=="profil") { 
 
-  $utiController->monProfil();
+  $utiController->monProfil($_SESSION['idutilisateur']);
   
-} 
+}
+
+if (isset($_POST["envoyer_comm"])) {
+  $projController->ajoutCommentaire();
+}
 
 
 
