@@ -200,24 +200,31 @@ class UtilisateurController
 
 
 		$uti = new Utilisateur($_POST);
+		$email = $_POST['mail'];
 
-		$okUti = $this->utilisateurManager->updateUtilisateur($uti);
-
+		// Vérification de l'adresse e-mail
+		if (substr($email, -13) === ".iut-tlse3.fr") {
+			$okUti = $this->utilisateurManager->updateUtilisateur($uti);
 		$message = "";
-
 		if ($okUti > 0) {
-
 			$message .= "Profil Modifié";
-
 		} else {
 			$message .= "Aucune modification effectuée";
 		}
-
 		$utis = $this->utilisateurManager->getProfilUti($utilisateur);
-
 		if ($message != "") {
 			echo $this->twig->render('profil.html.twig', array('utis' => $utis, 'message' => $message, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 		}
+		} else {
+			// Message d'erreur si l'e-mail n'est pas conforme
+			$message = "L'adresse e-mail doit se terminer par .iut-tlse3.fr";
+			$utis = $this->utilisateurManager->getProfilUti($utilisateur);
+			echo $this->twig->render('profil.html.twig', array('utis' => $utis, 'message' => $message, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
+		}
+
+		
+
+
 	}
 
 
