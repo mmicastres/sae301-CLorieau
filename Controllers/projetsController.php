@@ -273,6 +273,12 @@ class ProjetController
 	 */
 	public function modProjet($idutilisateur)
 	{
+		
+		$proj = new Projet($_POST);
+		$cate = new Appartient($_POST);
+		$tag = new Tag($_POST);
+		$source = new Source($_POST);
+
 		if ($_FILES["image"]["size"] > 0) {
 			$targetDirectory = "img/"; // Le dossier dans lequel vous souhaitez enregistrer les fichiers
 			$targetFile = $targetDirectory . basename($_FILES["image"]["name"]);
@@ -299,7 +305,7 @@ class ProjetController
 				echo "Désolé, seuls les fichiers JPG, JPEG, PNG GIF et WEBP sont autorisés.";
 			}
 
-			$proj = new Projet($_POST);
+			
 			// Si le fichier a été téléchargé avec succès, met à jour $proj avec le nom du fichier
 			if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
 				// Stockez le nom du fichier dans l'objet $proj
@@ -307,16 +313,10 @@ class ProjetController
 				$message = "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
 			}
 		} else {
-			$proj = $this->projetManager->get($_POST['idprojet']);
-			$proj->image(basename($_FILES["image"]["name"]));
+			$projbase = $this->projetManager->get($_POST['idprojet']);
+			$proj->setImage($projbase->image());
 		}
 
-
-
-
-		$cate = new Appartient($_POST);
-		$tag = new Tag($_POST);
-		$source = new Source($_POST);
 
 		$okProj = $this->projetManager->updateProjet($proj);
 		$okCate = $this->appartientManager->updateCategorie($cate);
