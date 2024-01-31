@@ -1,17 +1,17 @@
 <?php
 /**
-* définition de la classe itineraire
+* définition de la classe Evaluation
 */
 class Evaluation {
 	private int $_idevaluation;   
-	private string $_note;
+	private int $_note;
 	private int $_idutilisateur;
 	private int $_idprojet;
 
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'une evaluation à partir d'un tableau de données
 		if (isset($donnees['idevaluation']))  { $this->_idevaluation = $donnees['idevaluation']; }
 		if (isset($donnees['note']))  { $this->_note =  $donnees['note']; }
 		if (isset($donnees['idutilisateur'])) { $this->_idutilisateur = $donnees['idutilisateur']; }
@@ -28,7 +28,7 @@ class Evaluation {
 	
 	// SETTERS //
 	public function setIdEvaluation(int $idevaluation)             { $this->_idevaluation = $idevaluation; }
-	public function setNote(string $note)   { $this->_avis= $note; }
+	public function setNote(int $note)   { $this->_avis= $note; }
 	public function setIdUtilisateur(int $idutilisateur) { $this->_idutilisateur = $idutilisateur; }
 	public function setIdProjet(int $idprojet)             { $this->_idprojet = $idprojet; }
 	

@@ -1,24 +1,23 @@
 <?php
 include "Modules/projet.php";
-include "Models/projetsManager.php";
-include "Models/tagsManager.php";
-include "Models/sourcesManager.php";
-include "Models/categoriesManager.php";
-include "Models/contextesManager.php";
-include "Models/appartientManager.php";
-include "Models/participationManager.php";
-include "Models/associerManager.php";
-include "Models/commentairesManager.php";
-
-
-include "Modules/contexte.php";
-include "Modules/categorie.php";
 include "Modules/tag.php";
 include "Modules/source.php";
 include "Modules/appartient.php";
 include "Modules/participation.php";
 include "Modules/associer.php";
 include "Modules/commentaire.php";
+include "Modules/evaluation.php";
+
+
+include "Models/projetsManager.php";
+include "Models/tagsManager.php";
+include "Models/sourcesManager.php";
+include "Models/appartientManager.php";
+include "Models/participationManager.php";
+include "Models/associerManager.php";
+include "Models/commentairesManager.php";
+include "Models/evaluationsManager.php";
+
 
 
 
@@ -39,6 +38,7 @@ class ProjetController
 	private $associerManager;
 	private $utilisateurManager;
 	private $commentaireManager;
+	private $evaluationManager;
 	private $twig;
 
 	/**
@@ -56,6 +56,7 @@ class ProjetController
 		$this->associerManager = new AssocierManager($db);
 		$this->utilisateurManager = new UtilisateurManager($db);
 		$this->commentaireManager = new CommentaireManager($db);
+		$this->evaluationManager = new EvaluationManager($db);
 		$this->twig = $twig;
 
 	}
@@ -68,19 +69,10 @@ class ProjetController
 	public function listeProjets()
 	{
 		$projets = $this->projetManager->getList();
-		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
+		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
-	/**
-	 * liste de mes itinéraires
-	 * @param aucun
-	 * @return rien
-	 */
-	public function listeMesProjets($idutilisateur)
-	{
-		$projets = $this->projetManager->getListUtilisateur($idutilisateur);
-		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
-	}
+
 	/**
 	 * formulaire ajout
 	 * @param aucun
@@ -90,11 +82,11 @@ class ProjetController
 	{
 		$contexte = $this->contexteManager->choixContexte();
 		$cate = $this->categorieManager->choixCategorie();
-		echo $this->twig->render('projet_ajout.html.twig', array('acces' => $_SESSION['acces'], 'contextes' => $contexte, 'cates' => $cate, 'idutilisateur' => $_SESSION['idutilisateur']));
+		echo $this->twig->render('projet_ajout.html.twig', array('acces' => $_SESSION['acces'], 'contextes' => $contexte, 'cates' => $cate, 'idutilisateur' => $_SESSION['idutilisateur'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
 	/**
-	 * ajout dans la BD d'un iti à partir du form
+	 * ajout dans la BD d'un projet à partir du form
 	 * @param aucun
 	 * @return rien
 	 */
@@ -107,6 +99,7 @@ class ProjetController
 		$targetFile = $targetDirectory . basename($_FILES["image"]["name"]);
 		$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
+		// ajout de l'image provenant de Lucas Boustens réalisée avec chatGPT
 		// Vérifier si le fichier est une image réelle ou un faux fichier image
 		$check = getimagesize($_FILES["image"]["tmp_name"]);
 		if ($check === false) {
@@ -150,7 +143,7 @@ class ProjetController
 
 
 
-
+		// Laisons avec les fonctions des managers
 
 		$okProj = $this->projetManager->add($proj);
 		$okTag = $this->tagManager->add($tag);
@@ -191,27 +184,16 @@ class ProjetController
 
 
 		// Affichage de la vue avec le message
-		echo $this->twig->render('index.html.twig', array('message' => $message, 'acces' => $_SESSION['acces']));
+		echo $this->twig->render('index.html.twig', array('message' => $message, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 
 	}
 
 
-	/**
-	 * form de choix de l'iti à supprimer
-	 * @param aucun
-	 * @return rien
-	 */
-	// public function choixSuppProjet($idutilisateur)
-	// {
-	// 	$projets = $this->projetManager->getListUtilisateur($idutilisateur);
-	// 	echo $this->twig->render('itineraire_choix_suppression.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
-	// }
-
 
 
 	/**
-	 * suppression dans la BD d'un iti à partir de l'id choisi dans le form précédent
-	 * @param aucun
+	 * suppression dans la BD d'un projet à partir de son id
+	 * @param $idprojet
 	 * @return rien
 	 */
 	public function supprimerProjet($idprojet)
@@ -221,14 +203,18 @@ class ProjetController
 		$suppparticipation = new Participation($_POST);
 		$suppassocier = new Associer($_POST);
 		$suppproj = new Projet($_POST);
+		$suppcommentaire = new Commentaire($_POST);
+		$suppeval = new Evaluation($_POST);
 
 
 		$okSuppsource = $this->sourceManager->deleteSource($suppsource);
 		$okSuppappartient = $this->appartientManager->deleteAppartient($suppappartient);
 		$okSuppparticipation = $this->participationManager->deleteParticipation($suppparticipation);
 		$okSuppassocier = $this->associerManager->deleteAssocier($suppassocier);
-		// $okSupptag = $this->tagManager->deleteTags($supptag);
+		$okSupptag = $this->tagManager->deleteTag();
 		$okSuppproj = $this->projetManager->delete($suppproj);
+		$okSuppcommentaire = $this->commentaireManager->deleteCommentaire($suppcommentaire);
+		$okSuppeval = $this->evaluationManager->deleteEvaluation($suppeval);
 
 
 
@@ -246,65 +232,142 @@ class ProjetController
 		if (!$okSuppassocier) {
 			$message .= "Erreur lors de la suppression de la liaison avec le tag";
 		}
-		// if (!$okSupptag) {
-		// 	$message .= "Erreur lors de la suppression du tag";
-		// }
+		if (!$okSupptag) {
+			$message .= "Erreur lors de la suppression du tag";
+		}
 		if (!$okSuppproj) {
 			$message .= "Erreur lors de la suppression du projet";
 		}
+		if (!$okSuppcommentaire) {
+			$message .= "Erreur lors de la suppression des commentaires";
+		}
+		if (!$okSuppeval) {
+			$message .= "Erreur lors de la suppression des évaluations";
+		}
 
 
-		echo $this->twig->render('index.html.twig', array('message' => $message, 'acces' => $_SESSION['acces']));
+		echo $this->twig->render('index.html.twig', array('message' => $message, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
 
 
-
 	/**
-	 * form de choix de l'iti à modifier
-	 * @param aucun
-	 * @return rien
-	 */
-	public function choixModProjet($idutilisateur)
-	{
-		$projets = $this->projetManager->getListUtilisateur($idutilisateur);
-		echo $this->twig->render('itineraire_choix_modification.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
-	}
-	/**
-	 * form de saisi des nouvelles valeurs de l'iti à modifier
+	 * form de saisi des nouvelles valeurs du projet à modifier
 	 * @param aucun
 	 * @return rien
 	 */
 	public function saisieModProjet()
 	{
-		$proj = $this->projetManager->get($_POST["idprojet"]);
-		echo $this->twig->render('itineraire_modification.html.twig', array('proj' => $proj, 'acces' => $_SESSION['acces']));
+		$contexte = $this->contexteManager->choixContexte();
+		$cate = $this->categorieManager->choixCategorie();
+		$projs = $this->projetManager->getListProjetModif($_POST["idprojet"]);
+		$tags = $this->tagManager->getTagModif($_POST["idprojet"]);
+		$sources = $this->sourceManager->getSourceModif($_POST["idprojet"]);
+		echo $this->twig->render('projet_modification.html.twig', array('contextes' => $contexte, 'cates' => $cate, 'projs' => $projs, 'tags' => $tags, 'sources' => $sources, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
 	/**
 	 * modification dans la BD d'un projet à partir des données du form précédent
+	 * @param $idutilisateur
+	 * @return rien
+	 */
+	public function modProjet($idutilisateur)
+	{
+		if ($_FILES["image"]["size"] > 0) {
+			$targetDirectory = "img/"; // Le dossier dans lequel vous souhaitez enregistrer les fichiers
+			$targetFile = $targetDirectory . basename($_FILES["image"]["name"]);
+			$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+			// Vérifier si le fichier est une image réelle ou un faux fichier image
+			$check = getimagesize($_FILES["image"]["tmp_name"]);
+			if ($check === false) {
+				echo "Le fichier n'est pas une image.";
+			}
+			// Vérifier si le fichier existe déjà
+			if (file_exists($targetFile)) {
+				echo "Désolé, le fichier existe déjà.";
+			}
+			// Vérifier la taille du fichier
+			if ($_FILES["image"]["size"] > 5000000) {
+				echo "Désolé, votre fichier est trop volumineux.";
+			}
+			// Autoriser certains formats de fichiers
+			if (
+				$imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+				&& $imageFileType != "gif" && $imageFileType != "webp"
+			) {
+				echo "Désolé, seuls les fichiers JPG, JPEG, PNG GIF et WEBP sont autorisés.";
+			}
+
+			$proj = new Projet($_POST);
+			// Si le fichier a été téléchargé avec succès, met à jour $proj avec le nom du fichier
+			if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+				// Stockez le nom du fichier dans l'objet $proj
+				$proj->setImage(basename($_FILES["image"]["name"]));
+				$message = "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
+			}
+		} else {
+			$proj = $this->projetManager->get($_POST['idprojet']);
+			$proj->image(basename($_FILES["image"]["name"]));
+		}
+
+
+
+
+		$cate = new Appartient($_POST);
+		$tag = new Tag($_POST);
+		$source = new Source($_POST);
+
+		$okProj = $this->projetManager->updateProjet($proj);
+		$okCate = $this->appartientManager->updateCategorie($cate);
+		$okContexte = $this->contexteManager->updateContexte($proj);
+		$okTag = $this->tagManager->updateTag($tag);
+		$okSource = $this->sourceManager->updateSource($source);
+
+		$message = "";
+
+
+		if ($okProj > 0 || $okCate > 0 || $okContexte > 0 || $okTag > 0 || $okSource > 0) {
+
+			$message .= "Projet Modifié";
+
+		} else {
+			$message .= "Aucune modification effectuée";
+		}
+
+		$projets = $this->projetManager->getListUtilisateur($idutilisateur);
+
+		if ($message != "") {
+			echo $this->twig->render('mesprojets.html.twig', array('projets' => $projets, 'message' => $message, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
+		}
+	}
+
+	/**
+	 * Lien vers la page d'accueil
 	 * @param aucun
 	 * @return rien
 	 */
-	public function modProjet()
-	{
-		$proj = new Projet($_POST);
-		$ok = $this->projetManager->update($proj);
-		$message = $ok ? "Projet modifié" : $message = "probleme lors de la modification";
-		echo $this->twig->render('index.html.twig', array('message' => $message, 'acces' => $_SESSION['acces']));
-	}
-
 	public function projAccueil()
 	{
-		echo $this->twig->render('accueil.html.twig', array('acces' => $_SESSION['acces']));
+		echo $this->twig->render('accueil.html.twig', array('acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
+	/**
+	 * Lien vers la page "mes projets" d'un utilisateur
+	 * @param $idutilisateur
+	 * @return rien
+	 */
 	public function mesProjets($idutilisateur)
 	{
 		$projets = $this->projetManager->getListUtilisateur($idutilisateur);
-		echo $this->twig->render('mesprojets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
+		echo $this->twig->render('mesprojets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
+	/**
+	 * Affichage des détails d'un projet
+	 * @param aucun
+	 * @return rien
+	 */
 	public function details()
 	{
 		$detailprojets = $this->projetManager->getListProjet($_POST["idprojet"]);
@@ -314,45 +377,76 @@ class ProjetController
 		$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
 		$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
 		$comms = $this->commentaireManager->getListCommentaire($_POST["idprojet"]);
-		echo $this->twig->render('detail.html.twig', array('detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'comms' => $comms, 'acces' => $_SESSION['acces'], 'idutilisateur'=> $_SESSION['idutilisateur']));
+		$evals = $this->evaluationManager->getMoyenneNote($_POST["idprojet"]);
+		echo $this->twig->render('detail.html.twig', array('detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'comms' => $comms, 'evals' => $evals, 'acces' => $_SESSION['acces'], 'idutilisateur' => $_SESSION['idutilisateur'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
-
-
-
-
-
-
+	
 	/**
-	 * form de saisie des criteres
-	 * @param aucun
-	 * @return rien
-	 */
-	/**
-	 * recherche dans la BD projet à partir des données du form précédent
+	 * recherche dans la BD projet selon son titre ou sa description
 	 * @param aucun
 	 * @return rien
 	 */
 	public function rechercheProjet()
 	{
 		$projets = $this->projetManager->search($_POST["titre"], $_POST["description"]);
-		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces']));
+		echo $this->twig->render('projets.html.twig', array('projets' => $projets, 'acces' => $_SESSION['acces'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
 	}
 
+
+	/**
+	 * Ajout d'un commentaire
+	 * @param aucun
+	 * @return rien
+	 */
 	public function ajoutCommentaire()
 	{
-		$comm = new Commentaire($_POST);
-		$ok = $this->commentaireManager->add($comm);
-		$detailprojets = $this->projetManager->getListProjet($_POST["idprojet"]);
-		$detailtags = $this->tagManager->getTag($_POST["idprojet"]);
-		$detailsources = $this->sourceManager->getSource($_POST["idprojet"]);
-		$detailcates = $this->categorieManager->getCategorie($_POST["idprojet"]);
-		$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
-		$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
-		$message = $ok ? "Commentaire ajouté" : $message = "probleme lors de la modification";
-		echo $this->twig->render('detail.html.twig', array('comm' => $comm, 'detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'message' => $message, 'acces' => $_SESSION['acces'], 'idutilisateur'=> $_SESSION['idutilisateur']));
+		if (isset($_SESSION['acces']) && $_SESSION['acces'] == "oui") {
+			$comm = new Commentaire($_POST);
+			$ok = $this->commentaireManager->add($comm);
+			$detailprojets = $this->projetManager->getListProjet($_POST["idprojet"]);
+			$detailtags = $this->tagManager->getTag($_POST["idprojet"]);
+			$detailsources = $this->sourceManager->getSource($_POST["idprojet"]);
+			$detailcates = $this->categorieManager->getCategorie($_POST["idprojet"]);
+			$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
+			$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
+			$comms = $this->commentaireManager->getListCommentaire($_POST["idprojet"]);
+			$evals = $this->evaluationManager->getMoyenneNote($_POST["idprojet"]);
+			$message = $ok ? "Commentaire ajouté" : $message = "probleme lors de la modification";
+			echo $this->twig->render('detail.html.twig', array('comm' => $comm, 'detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'comms' => $comms, 'evals' => $evals, 'message' => $message, 'acces' => $_SESSION['acces'], 'idutilisateur' => $_SESSION['idutilisateur'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
+		} else {
+			$message = "Veuillez vous connecter pour pouvoir ajouter un commentaire";
+			echo $this->twig->render('utilisateur_connexion.html.twig', array('message' => $message, 'acces' => $_SESSION['acces'], 'nomuti' => $_SESSION['nomuti']));
+		}
+
 	}
 
 
+	/**
+	 * Ajout d'une note
+	 * @param aucun
+	 * @return rien
+	 */
+	public function ajoutNote()
+	{
+		if (isset($_SESSION['acces']) && $_SESSION['acces'] == "oui") {
+			$eval = new Evaluation($_POST);
+			$ok = $this->evaluationManager->add($eval);
+			$detailprojets = $this->projetManager->getListProjet($_POST["idprojet"]);
+			$detailtags = $this->tagManager->getTag($_POST["idprojet"]);
+			$detailsources = $this->sourceManager->getSource($_POST["idprojet"]);
+			$detailcates = $this->categorieManager->getCategorie($_POST["idprojet"]);
+			$detailcontextes = $this->contexteManager->getContexte($_POST["idprojet"]);
+			$detailutilisateurs = $this->utilisateurManager->getDetailUti($_POST["idprojet"]);
+			$evals = $this->evaluationManager->getMoyenneNote($_POST["idprojet"]);
+			$comms = $this->commentaireManager->getListCommentaire($_POST["idprojet"]);
+			$message = $ok ? "Note ajoutée" : $message = "probleme lors de l'envoie'";
+			echo $this->twig->render('detail.html.twig', array('eval' => $eval, 'detailprojets' => $detailprojets, 'detailtags' => $detailtags, 'detailsources' => $detailsources, 'detailcates' => $detailcates, 'detailcontextes' => $detailcontextes, 'detailutilisateurs' => $detailutilisateurs, 'evals' => $evals, 'comms' => $comms, 'message' => $message, 'acces' => $_SESSION['acces'], 'idutilisateur' => $_SESSION['idutilisateur'], 'admin' => $_SESSION['admin'], 'nomuti' => $_SESSION['nomuti']));
+
+		} else {
+			$message = "Veuillez vous connecter pour pouvoir ajouter une note";
+			echo $this->twig->render('utilisateur_connexion.html.twig', array('message' => $message, 'acces' => $_SESSION['acces'], 'nomuti' => $_SESSION['nomuti']));
+		}
+	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe tag
+* définition de la classe Tag
 */
 class Tag {
 	private int $_idtag;   
@@ -9,7 +9,7 @@ class Tag {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'un tag à partir d'un tableau de données
 		if (isset($donnees['idtag']))       { $this->_idtag =       $donnees['idtag']; }
 		if (isset($donnees['nomtag']))  { $this->_nomtag =  $donnees['nomtag']; }
 		

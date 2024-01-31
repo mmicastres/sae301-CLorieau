@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe contexte
+* définition de la classe Source
 */
 class Source {
 	private int $_idprojet;   
@@ -11,7 +11,7 @@ class Source {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'une source à partir d'un tableau de données
 		if (isset($donnees['idprojet']))       { $this->_idprojet =       $donnees['idprojet']; }
 		if (isset($donnees['idsource']))  { $this->_idsource =  $donnees['idsource']; }
 		if (isset($donnees['liensource'])) { $this->_liensource = $donnees['liensource']; }	

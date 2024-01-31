@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe itineraire
+* définition de la classe Commentaire
 */
 class Commentaire {
 	private int $_idcommentaire;   
@@ -13,7 +13,7 @@ class Commentaire {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'un commentaire à partir d'un tableau de données
 		if (isset($donnees['idcommentaire']))       { $this->_idcommentaire =       $donnees['idcommentaire']; }
 		if (isset($donnees['avis']))  { $this->_avis =  $donnees['avis']; }
 		if (isset($donnees['idutilisateur'])) { $this->_idutilisateur = $donnees['idutilisateur']; }

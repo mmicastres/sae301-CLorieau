@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe tag
+* définition de la classe appartient
 */
 class Appartient {
 	private int $_idprojet;   
@@ -9,7 +9,7 @@ class Appartient {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'appartient à partir d'un tableau de données
 		if (isset($donnees['idprojet']))       { $this->_idprojet =       $donnees['idprojet']; }
 		if (isset($donnees['idcate']))  { $this->_idcate =  $donnees['idcate']; }
 		

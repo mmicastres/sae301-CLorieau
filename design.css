@@ -88,7 +88,7 @@ nav .navbar-brand img {
 }
 
 .card-text {
-    font-size: 0.875rem;
+    font-size: 1rem !important;
 }
 
 .card-body {
@@ -96,17 +96,50 @@ nav .navbar-brand img {
 }
 
 .btn-outline-primary {
-    border-color: #007bff; 
+    border-color: #7749F8 !important;
+	color: #7749F8;
+	
 }
 
-.btn-primary {
-    background-color: #007bff; 
+.btn-outline-primary:hover{
+	background-color: #7749F8 !important; 
+}
+
+.btn-primary{
+    background-color: #7749F8 !important; 
     border: none; 
+}
+
+.boutonmesprojs {
+	margin: 6px;
 }
 
 
 .d-flex.justify-content-between.align-items-center {
     margin-bottom: 2rem; 
+}
+
+.rating {
+	unicode-bidi: bidi-override;
+	direction: rtl;
+	text-align: end;
+}
+.rating > label {
+	display: inline-block;
+	position: relative;
+	width: 1.1em;
+	font-size: 3rem;
+	color: #ddd;
+	cursor: pointer;
+}
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+	color: #ffc107;
+}
+.rating > input.radio-btn {
+	position: absolute;
+	left: -9999px;
 }
 
 

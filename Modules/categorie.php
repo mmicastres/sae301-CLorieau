@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe categorie
+* définition de la classe Categorie
 */
 class Categorie {
 	private int $_idcate;   
@@ -9,7 +9,7 @@ class Categorie {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'une categorie à partir d'un tableau de données
 		if (isset($donnees['idcate']))       { $this->_idcate =       $donnees['idcate']; }
 		if (isset($donnees['nomcate']))  { $this->_nomcate =  $donnees['nomcate']; }
 		

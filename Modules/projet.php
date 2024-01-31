@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe itineraire
+* définition de la classe Projet
 */
 class Projet {
 	private int $_idprojet;   
@@ -13,7 +13,7 @@ class Projet {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'un projet à partir d'un tableau de données
 		if (isset($donnees['idprojet']))       { $this->_idprojet =       $donnees['idprojet']; }
 		if (isset($donnees['titre']))  { $this->_titre =  $donnees['titre']; }
 		if (isset($donnees['description'])) { $this->_description = $donnees['description']; }

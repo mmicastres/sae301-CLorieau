@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe participation
+* définition de la classe Participation
 */
 class Participation {
 	private int $_idprojet;   
@@ -9,7 +9,7 @@ class Participation {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'une participation à partir d'un tableau de données
 		if (isset($donnees['idprojet']))       { $this->_idprojet =       $donnees['idprojet']; }
 		if (isset($donnees['idutilisateur']))  { $this->_idutilisateur =  $donnees['idutilisateur']; }
 		

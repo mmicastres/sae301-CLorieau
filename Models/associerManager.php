@@ -2,7 +2,7 @@
 include_once("Models/tagsManager.php");
 // include_once("Modules/tag.php");
 /**
- * Définition d'une classe permettant de gérer les Projet 
+ * Définition d'une classe permettant de gérer les Association entre un tag et un projet
  *   en relation avec la base de données	
  */
 class AssocierManager
@@ -22,9 +22,10 @@ class AssocierManager
 	}
 
 	/**
-	 * ajout d'une Association dans la BD
-	 * @param Associer à ajouter
-	 * @return int true si l'ajout a bien eu lieu, false sinon
+	 * ajout d'une liaison entre un projet et un tag
+	 * @param Associer $linktag
+	 * @param $proj
+	 * @return mixed
 	 */
 	public function add($linktag, $proj)
 	{
@@ -46,6 +47,11 @@ class AssocierManager
 		}
 	}
 
+	/**
+	 * Supprimme la liaison entre un projet et un tag
+	 * @param  aucun
+	 * @return rien
+	 */
 	public function deleteAssocier(Associer $suppassocier): bool
 	{
 		$req = "DELETE FROM associer WHERE idprojet = ?";

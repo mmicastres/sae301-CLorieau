@@ -1,6 +1,6 @@
 <?php
 /** 
-* définition de la classe itineraire
+* définition de la classe Utilisateur
 */
 class Utilisateur {
         private int $_idutilisateur;
@@ -15,7 +15,7 @@ class Utilisateur {
 		
         // contructeur
         public function __construct(array $donnees) {
-		// initialisation d'un produit à partir d'un tableau de données
+		// initialisation d'un utilisateur à partir d'un tableau de données
 			if (isset($donnees['idutilisateur'])) { $this->_idutilisateur = $donnees['idutilisateur']; }
 			if (isset($donnees['nom'])) { $this->_nom = $donnees['nom']; }
 			if (isset($donnees['prenom'])) { $this->_prenom = $donnees['prenom']; }

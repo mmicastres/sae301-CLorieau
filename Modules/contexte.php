@@ -1,6 +1,6 @@
 <?php
 /**
-* définition de la classe contexte
+* définition de la classe Contexte
 */
 class Contexte {
 	private int $_idcontexte;   
@@ -12,7 +12,7 @@ class Contexte {
 		
 	// contructeur
 	public function __construct(array $donnees) {
-	// initialisation d'un produit à partir d'un tableau de données
+	// initialisation d'un contexte à partir d'un tableau de données
 		if (isset($donnees['idcontexte']))       { $this->_idcontexte =       $donnees['idcontexte']; }
 		if (isset($donnees['identifiant']))  { $this->_identifiant =  $donnees['identifiant']; }
 		if (isset($donnees['semestre'])) { $this->_semestre = $donnees['semestre']; }
